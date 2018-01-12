@@ -26,9 +26,9 @@ import static org.junit.Assert.assertThat;
 
 public class ReportGeneratorTest {
 
-	private List<Instruction> instructions = new ArrayList<>();
-	private InstructionExecutor instructionExecutor = new InstructionExecutor();
-	private ReportGenerator reportGenerator = new ReportGenerator();
+    private List<Instruction> instructions = new ArrayList<>();
+    private InstructionExecutor instructionExecutor = new InstructionExecutor();
+    private ReportGenerator reportGenerator = new ReportGenerator();
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -36,22 +36,22 @@ public class ReportGeneratorTest {
 
 
     /**
-	 * Country code has to be valid one as per this article http://www.xe.com/iso4217.php 
-	 * @throws Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
+     * Country code has to be valid one as per this article http://www.xe.com/iso4217.php
+     * @throws Exception
+     */
+    @Before
+    public void setUp() throws Exception {
         // instruction1 and  instruction2 are the exactly same as mentioned in problem document
 
-		Instruction instruction1 = new Instruction(new Entity("foo"), LocalDate.of(2016, Month.JANUARY, 1),
-				LocalDate.of(2016, Month.JANUARY, 5), TransactionType.B, 0.50, 200, 100.25,
-				Currency.getInstance("SGD"));
+        Instruction instruction1 = new Instruction(new Entity("foo"), LocalDate.of(2016, Month.JANUARY, 1),
+                LocalDate.of(2016, Month.JANUARY, 5), TransactionType.B, 0.50, 200, 100.25,
+                Currency.getInstance("SGD"));
 
-		Instruction instruction2 = new Instruction(new Entity("bar"), LocalDate.of(2016, Month.JANUARY, 5),
-				LocalDate.of(2016, Month.JANUARY, 7), TransactionType.S, 0.22, 450, 150.5,
-				Currency.getInstance("AED"));
+        Instruction instruction2 = new Instruction(new Entity("bar"), LocalDate.of(2016, Month.JANUARY, 5),
+                LocalDate.of(2016, Month.JANUARY, 7), TransactionType.S, 0.22, 450, 150.5,
+                Currency.getInstance("AED"));
 
-		//instruction3-instruction6 added extra to validate some test scenarios
+        //instruction3-instruction6 added extra to validate some test scenarios
         Instruction instruction3 = new Instruction(new Entity("boo"), LocalDate.of(2016, Month.JANUARY, 1),
                 LocalDate.of(2016, Month.JANUARY, 5), TransactionType.B, 0.50, 300, 100.25,
                 Currency.getInstance("EUR"));
@@ -70,17 +70,16 @@ public class ReportGeneratorTest {
 
 
         instructions.add(instruction1);
-		instructions.add(instruction2);
+        instructions.add(instruction2);
         instructions.add(instruction3);
         instructions.add(instruction4);
         instructions.add(instruction5);
         instructions.add(instruction6);
 
-	}
+    }
 
 
-
-	@Test
+    @Test
     public void testWhenInputInstructionIsEmpty_shouldThrowIllegalArguementException() {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Provided Data is Insufficient");
@@ -89,13 +88,13 @@ public class ReportGeneratorTest {
 
 
 
-	@Test
-	public void testWhenInputIsValid_shouldAssertActualOutput() {
-		
-		Set<TradeDetails> executedTradeDetails = instructionExecutor.execute(instructions);
-		assertThat(executedTradeDetails.size(), is(not(0)));
+    @Test
+    public void testWhenInputIsValid_shouldAssertActualOutput() {
+
+        Set<TradeDetails> executedTradeDetails = instructionExecutor.execute(instructions);
+        assertThat(executedTradeDetails.size(), is(not(0)));
         assertThat(executedTradeDetails.size(), is(6));
         reportGenerator.generateReport(executedTradeDetails, LocalDate.of(2016, Month.JANUARY, 5));
-	}
+    }
 
 }
